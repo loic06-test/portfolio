@@ -2,7 +2,12 @@ import { defineConfig } from 'vite'
 import react from '@vitejs/plugin-react'
 import path from 'node:path'
 
+// Repo is published at https://loic06-test.github.io/portfolio/ so every
+// asset URL must be prefixed with `/portfolio/` — otherwise the production
+// build fetches `/assets/...` from the GitHub Pages domain root (404) and the
+// page renders blank.
 export default defineConfig({
+  base: '/portfolio/',
   plugins: [react()],
   resolve: {
     alias: {
