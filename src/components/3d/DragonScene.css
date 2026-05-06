@@ -52,6 +52,17 @@
   z-index: 1;
 }
 
+/* Mobile-only static backdrop — replaces the Sketchfab WebGL iframe (which
+   crashes mobile browsers when stacked with the rest of the page). */
+.dragon-scene__mobile-bg {
+  position: absolute;
+  inset: 0;
+  background:
+    radial-gradient(60% 55% at 70% 45%, rgba(216, 58, 44, 0.18) 0%, transparent 65%),
+    radial-gradient(75% 70% at 30% 60%, rgba(35, 38, 45, 0.7) 0%, transparent 70%),
+    linear-gradient(180deg, #14161b 0%, #08090b 100%);
+}
+
 .dragon-scene__placeholder.is-hidden {
   opacity: 0;
   pointer-events: none;

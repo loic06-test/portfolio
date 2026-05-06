@@ -1,5 +1,6 @@
 import { useEffect, useRef, useState } from 'react'
 import { useReducedMotion } from '@/hooks/useReducedMotion'
+import { useMediaQuery } from '@/hooks/useMediaQuery'
 import './DragonScene.css'
 
 const MODEL_ID = 'd942a0d167594169b3f037f562458d38'
@@ -81,6 +82,11 @@ type Props = {
 
 export function DragonScene({ className }: Props) {
   const reduced = useReducedMotion()
+  // Sketchfab's WebGL embed crashes mobile browsers ("Impossible d'ouvrir cette
+  // page" on iOS, OOM kills on Android Chrome) once you stack it on top of GSAP
+  // + Lenis + smooth scroll. We swap it for a static premium backdrop below
+  // this width — the layout & copy stay identical.
+  const isMobile = useMediaQuery('(max-width: 768px)')
   const wrapRef = useRef<HTMLDivElement>(null)
   const iframeRef = useRef<HTMLIFrameElement>(null)
   const apiRef = useRef<SketchfabApi | null>(null)
@@ -98,6 +104,15 @@ export function DragonScene({ className }: Props) {
       window.__sceneReady = true
       setReady(true)
       window.dispatchEvent(new CustomEvent('scene:ready'))
+    }
+
+    // Mobile: don't even mount the Sketchfab iframe — release the preloader
+    // immediately so the rest of the page can paint.
+    if (isMobile) {
+      fireReady()
+      return () => {
+        cancelled = true
+      }
     }
 
     hardTimeoutId = window.setTimeout(fireReady, HARD_TIMEOUT_MS)
@@ -159,11 +174,12 @@ export function DragonScene({ className }: Props) {
       if (hardTimeoutId !== null) window.clearTimeout(hardTimeoutId)
       if (bufferTimeoutId !== null) window.clearTimeout(bufferTimeoutId)
     }
-  }, [reduced])
+  }, [reduced, isMobile])
 
   // Pause the viewer while the hero is offscreen — saves a ton of GPU/CPU
   // since the embedded Sketchfab page keeps rendering otherwise.
   useEffect(() => {
+    if (isMobile) return
     const wrap = wrapRef.current
     if (!wrap) return
     const obs = new IntersectionObserver(
@@ -187,26 +203,32 @@ export function DragonScene({ className }: Props) {
     )
     obs.observe(wrap)
     return () => obs.disconnect()
-  }, [])
+  }, [isMobile])
 
   return (
     <div ref={wrapRef} className={`dragon-scene${className ? ` ${className}` : ''}`}>
-      <div
-        className={`dragon-scene__placeholder${ready ? ' is-hidden' : ''}`}
-        aria-hidden="true"
-      >
-        <span className="dragon-scene__shimmer" />
-      </div>
-      <iframe
-        ref={iframeRef}
-        className="dragon-scene__frame"
-        title="Dragon — modèle 3D animé"
-        allow="autoplay; fullscreen; xr-spatial-tracking"
-        loading="lazy"
-      />
-      <div className="dragon-scene__mask dragon-scene__mask--top" aria-hidden="true" />
-      <div className="dragon-scene__mask dragon-scene__mask--right" aria-hidden="true" />
-      <div className="dragon-scene__mask dragon-scene__mask--bottom" aria-hidden="true" />
+      {isMobile ? (
+        <div className="dragon-scene__mobile-bg" aria-hidden="true" />
+      ) : (
+        <>
+          <div
+            className={`dragon-scene__placeholder${ready ? ' is-hidden' : ''}`}
+            aria-hidden="true"
+          >
+            <span className="dragon-scene__shimmer" />
+          </div>
+          <iframe
+            ref={iframeRef}
+            className="dragon-scene__frame"
+            title="Dragon — modèle 3D animé"
+            allow="autoplay; fullscreen; xr-spatial-tracking"
+            loading="lazy"
+          />
+          <div className="dragon-scene__mask dragon-scene__mask--top" aria-hidden="true" />
+          <div className="dragon-scene__mask dragon-scene__mask--right" aria-hidden="true" />
+          <div className="dragon-scene__mask dragon-scene__mask--bottom" aria-hidden="true" />
+        </>
+      )}
     </div>
   )
 }

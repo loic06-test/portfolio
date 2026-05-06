@@ -5,11 +5,24 @@ import { ScrollTrigger } from 'gsap/ScrollTrigger'
 
 gsap.registerPlugin(ScrollTrigger)
 
-/** Initialise Lenis once and sync it with GSAP ScrollTrigger. */
+/**
+ * Initialise Lenis once and sync it with GSAP ScrollTrigger.
+ *
+ * Skipped on touch devices: Lenis fights iOS / Android native momentum and
+ * caused the page to crash ("Impossible d'ouvrir cette page") under load on
+ * top of the rest of the animation pipeline.
+ */
 export function useLenis(): void {
   const ref = useRef<Lenis | null>(null)
 
   useEffect(() => {
+    if (
+      typeof window !== 'undefined' &&
+      window.matchMedia('(pointer: coarse)').matches
+    ) {
+      return
+    }
+
     const lenis = new Lenis({
       duration: 1.05,
       easing: (t: number) => Math.min(1, 1.001 - Math.pow(2, -10 * t)),
@@ -24,8 +37,6 @@ export function useLenis(): void {
       lenis.raf(time * 1000)
     }
     gsap.ticker.add(tickerCb)
-    // Keep GSAP's default lag smoothing — it actually helps when other
-    // expensive frames (Sketchfab, etc.) cause hiccups.
 
     return () => {
       gsap.ticker.remove(tickerCb)
