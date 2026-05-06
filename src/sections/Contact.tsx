@@ -1,119 +1,97 @@
-import { useEffect, useRef } from 'react'
-import { gsap } from 'gsap'
-import { ScrollTrigger } from 'gsap/ScrollTrigger'
-import { Button } from '@/components/ui/Button'
-import { Magnetic } from '@/components/ui/Magnetic'
-import { SectionLabel } from '@/components/ui/SectionLabel'
-import { RevealLine } from '@/components/ui/RevealText'
-import { revealFade, revealLines, splitChars } from '@/animations/reveal'
+import { SectionMarker } from '@/components/ui/SectionMarker'
+import { RevealLine } from '@/components/ui/RevealLine'
+import { FadeIn } from '@/components/ui/FadeIn'
+import { BigArrow } from '@/components/ui/BigArrow'
 import { personal } from '@/data/personal'
 import { socialLinks } from '@/data/social'
 import './Contact.css'
 
-gsap.registerPlugin(ScrollTrigger)
-
 export function Contact() {
-  const ref = useRef<HTMLElement>(null)
-
-  useEffect(() => {
-    const el = ref.current
-    if (!el) return
-    const t1 = revealLines(el, { trigger: el, start: 'top 75%' })
-    const t2 = revealFade(el, { trigger: el, start: 'top 75%', delay: 0.2 })
-
-    const huge = el.querySelector<HTMLElement>('[data-contact="huge"]')
-    let hugeTrigger: ScrollTrigger | null = null
-    if (huge) {
-      const chars = splitChars(huge)
-      gsap.set(chars, { opacity: 0, y: 40 })
-      hugeTrigger = ScrollTrigger.create({
-        trigger: huge,
-        start: 'top 80%',
-        once: true,
-        onEnter: () => {
-          gsap.to(chars, {
-            opacity: 1,
-            y: 0,
-            duration: 0.9,
-            stagger: 0.012,
-            ease: 'expo.out',
-          })
-        },
-      })
-    }
-
-    return () => {
-      t1.kill()
-      t2.kill()
-      hugeTrigger?.kill()
-    }
-  }, [])
-
   return (
-    <section ref={ref} id="contact" className="contact">
+    <section id="contact" className="section section--contact section--paper">
       <div className="container">
-        <header className="contact__head">
-          <SectionLabel index="04" label="Contact" />
-          <span className="contact__head-meta">Alternance & projets · 2026</span>
-        </header>
+        <SectionMarker
+          index="06"
+          label="Contact"
+          meta="Alternance & projets — 2026"
+        />
 
-        <h2 className="display contact__title">
-          <RevealLine>Une alternance,</RevealLine>
-          <RevealLine>un projet ? <em>Parlons-en.</em></RevealLine>
+        <h2 className="contact__title display">
+          <RevealLine inView delay={0}>Travaillons</RevealLine>
+          <RevealLine inView delay={0.1} italic accent>
+            ensemble.
+          </RevealLine>
         </h2>
 
-        <p className="contact__lead reveal-fade">
-          Recherche d’une alternance pour ma 3ème année de BUT GEA, ou simple
-          envie de collaborer sur un projet de communication / création — le
-          mail et le téléphone sont juste en dessous.
-        </p>
+        <FadeIn delay={0.15}>
+          <p className="contact__lead">
+            Recherche d’une alternance pour ma 3ème année de BUT GEA, ou simple
+            envie de collaborer sur un projet de communication ou de création —
+            l’email et le téléphone sont juste en dessous.
+          </p>
+        </FadeIn>
 
-        <div className="contact__actions">
-          <span className="reveal-fade">
-            <Magnetic>
-              <Button as="a" href={`mailto:${personal.email}`}>
-                Écrire un email
-              </Button>
-            </Magnetic>
-          </span>
-          <span className="reveal-fade">
-            <Magnetic>
-              <Button as="a" href={socialLinks[0].href} variant="ghost">
-                Voir le LinkedIn
-              </Button>
-            </Magnetic>
-          </span>
-        </div>
+        <FadeIn delay={0.25}>
+          <div className="contact__cta">
+            <BigArrow as="a" href={`mailto:${personal.email}`}>
+              Écrire un email
+            </BigArrow>
+            <BigArrow
+              as="a"
+              href={socialLinks[0].href}
+              variant="outline"
+            >
+              Voir le LinkedIn
+            </BigArrow>
+          </div>
+        </FadeIn>
 
-        <div className="contact__huge" aria-hidden="true">
-          <span data-contact="huge">{personal.email}</span>
-        </div>
+        <FadeIn delay={0.35}>
+          <a
+            href={`mailto:${personal.email}`}
+            className="contact__email-huge billboard"
+          >
+            <span className="contact__email-arrow" aria-hidden="true">↗</span>
+            <span>{personal.email}</span>
+          </a>
+        </FadeIn>
 
         <div className="contact__grid">
-          <div className="contact__col reveal-fade">
-            <span className="eyebrow">Email</span>
-            <a className="contact__big-link" href={`mailto:${personal.email}`}>
-              {personal.email}
-            </a>
-          </div>
-          <div className="contact__col reveal-fade">
-            <span className="eyebrow">Téléphone</span>
-            <a className="contact__big-link" href={`tel:${personal.phone.replace(/\s/g, '')}`}>
-              {personal.phone}
-            </a>
-          </div>
-          <div className="contact__col reveal-fade">
-            <span className="eyebrow">Réseaux</span>
-            <ul className="contact__socials">
-              {socialLinks.map((s) => (
-                <li key={s.label}>
-                  <a href={s.href} target="_blank" rel="noreferrer">
-                    {s.label}
-                  </a>
-                </li>
-              ))}
-            </ul>
-          </div>
+          <FadeIn delay={0.45}>
+            <div className="contact__card">
+              <span className="mono">Téléphone</span>
+              <a
+                className="contact__big-link"
+                href={`tel:${personal.phone.replace(/\s/g, '')}`}
+              >
+                {personal.phone}
+              </a>
+            </div>
+          </FadeIn>
+          <FadeIn delay={0.5}>
+            <div className="contact__card">
+              <span className="mono">Localisation</span>
+              <p className="contact__big-link">
+                {personal.location}<br />
+                <span className="contact__soft">{personal.origin}</span>
+              </p>
+            </div>
+          </FadeIn>
+          <FadeIn delay={0.55}>
+            <div className="contact__card">
+              <span className="mono">Réseaux</span>
+              <ul className="contact__socials">
+                {socialLinks.map((s) => (
+                  <li key={s.label}>
+                    <a href={s.href} target="_blank" rel="noreferrer">
+                      <span>{s.label}</span>
+                      <span className="contact__handle">{s.handle}</span>
+                    </a>
+                  </li>
+                ))}
+              </ul>
+            </div>
+          </FadeIn>
         </div>
       </div>
     </section>

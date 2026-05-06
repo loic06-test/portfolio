@@ -1,0 +1,112 @@
+.section--exp {
+  background: var(--ink);
+}
+
+.exp__head {
+  padding-bottom: var(--gap-5);
+  border-bottom: 1px solid var(--line);
+  margin-bottom: var(--gap-6);
+}
+
+.exp__title {
+  font-family: var(--font-display);
+  font-size: clamp(2.4rem, 1.5rem + 5vw, 5.2rem);
+  text-transform: uppercase;
+  line-height: 0.92;
+  margin: 0;
+  max-width: 14ch;
+}
+
+.exp__title-italic {
+  color: var(--accent);
+  font-size: 0.95em;
+  letter-spacing: -0.02em;
+}
+
+.exp__list {
+  display: grid;
+  gap: 0;
+  border-top: 1px solid var(--line);
+}
+
+.exp-item {
+  display: grid;
+  grid-template-columns: 220px 1fr;
+  gap: var(--gap-6);
+  padding: var(--gap-6) 0;
+  border-bottom: 1px solid var(--line);
+  align-items: start;
+}
+
+.exp-item__year {
+  display: flex;
+  align-items: baseline;
+  gap: 0.6em;
+  font-family: var(--font-mono);
+  font-size: var(--fs-meta);
+  letter-spacing: 0.14em;
+  text-transform: uppercase;
+  color: var(--paper-dim);
+}
+
+.exp-item--current .exp-item__year {
+  color: var(--accent);
+}
+
+.exp-item--upcoming .exp-item__year {
+  color: var(--paper);
+}
+
+.exp-item__pulse {
+  display: inline-block;
+  width: 8px;
+  height: 8px;
+  border-radius: 50%;
+  background: var(--accent);
+  box-shadow: 0 0 10px rgba(255, 42, 24, 0.5);
+}
+
+.exp-item__body {
+  display: grid;
+  gap: var(--gap-3);
+}
+
+.exp-item__role {
+  font-family: var(--font-display);
+  font-size: clamp(1.7rem, 1rem + 2vw, 3rem);
+  text-transform: uppercase;
+  line-height: 0.92;
+  letter-spacing: -0.005em;
+  color: var(--paper);
+  margin: 0;
+}
+
+.exp-item__meta {
+  display: inline-flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: 0.55em;
+  font-family: var(--font-mono);
+  font-size: var(--fs-mono);
+  letter-spacing: 0.14em;
+  text-transform: uppercase;
+  color: var(--paper-dim);
+}
+
+.exp-item__sep {
+  color: var(--mute);
+}
+
+.exp-item__blurb {
+  color: var(--paper-dim);
+  max-width: 60ch;
+  font-size: var(--fs-body);
+}
+
+@media (max-width: 768px) {
+  .exp-item {
+    grid-template-columns: 1fr;
+    gap: var(--gap-3);
+    padding: var(--gap-5) 0;
+  }
+}

@@ -1,128 +1,99 @@
-import { useEffect, useRef } from 'react'
-import { gsap } from 'gsap'
-import { ScrollTrigger } from 'gsap/ScrollTrigger'
-import { SectionLabel } from '@/components/ui/SectionLabel'
-import { RevealLine } from '@/components/ui/RevealText'
-import { Magnetic } from '@/components/ui/Magnetic'
-import { Button } from '@/components/ui/Button'
-import { revealLines } from '@/animations/reveal'
+import { useState } from 'react'
+import { motion, AnimatePresence } from 'framer-motion'
+import { SectionMarker } from '@/components/ui/SectionMarker'
+import { RevealLine } from '@/components/ui/RevealLine'
+import { ProjectModal } from '@/components/ui/ProjectModal'
+import { useReducedMotion } from '@/hooks/useReducedMotion'
 import { projects } from '@/data/projects'
 import './Projects.css'
 
-gsap.registerPlugin(ScrollTrigger)
-
 export function Projects() {
-  const ref = useRef<HTMLElement>(null)
-
-  useEffect(() => {
-    const el = ref.current
-    if (!el) return
-    const tween = revealLines(el, { trigger: el, start: 'top 75%' })
-
-    const cards = gsap.utils.toArray<HTMLElement>('.project-card', el)
-    const triggers = cards.map((card, i) => {
-      gsap.set(card, { y: 60, opacity: 0 })
-      return ScrollTrigger.create({
-        trigger: card,
-        start: 'top 88%',
-        once: true,
-        onEnter: () => {
-          gsap.to(card, {
-            y: 0,
-            opacity: 1,
-            duration: 1.1,
-            delay: i * 0.06,
-            ease: 'expo.out',
-          })
-        },
-      })
-    })
-
-    return () => {
-      tween.kill()
-      triggers.forEach((t) => t.kill())
-    }
-  }, [])
+  const [activeId, setActiveId] = useState<string | null>(null)
+  const active = projects.find((p) => p.id === activeId) ?? null
 
   return (
-    <section ref={ref} id="projects" className="projects">
+    <section id="projects" className="section section--projects">
       <div className="container">
-        <header className="projects__head">
-          <div className="projects__head-top">
-            <SectionLabel index="02" label="Projets" />
-            <span className="projects__head-meta">{projects.length} études de cas · 2025 — 2026</span>
-          </div>
-          <h2 className="display projects__title">
-            <RevealLine>Études de cas</RevealLine>
-            <RevealLine><em>récentes.</em></RevealLine>
+        <SectionMarker
+          index="03"
+          label="Projets"
+          meta={`${projects.length} études de cas — 2025 / 2026`}
+        />
+
+        <div className="projects__head">
+          <h2 className="projects__title display">
+            <RevealLine inView delay={0}>Sélection</RevealLine>
+            <RevealLine inView delay={0.08} italic accent>
+              éditoriale.
+            </RevealLine>
           </h2>
-        </header>
-
-        <ul className="projects__list">
-          {projects.map((p) => (
-            <li key={p.id} className="project-card">
-              <a href="#" className="project-card__link" aria-label={`Voir ${p.title}`}>
-                <div className="project-card__index">{p.index}</div>
-
-                <div className="project-card__visual" data-cursor="hover">
-                  {p.cover ? (
-                    <img
-                      src={p.cover}
-                      alt={p.title}
-                      className={[
-                        'project-card__image',
-                        p.coverFit === 'contain' && 'project-card__image--contain',
-                      ]
-                        .filter(Boolean)
-                        .join(' ')}
-                      style={{
-                        ...(p.coverPosition && { objectPosition: p.coverPosition }),
-                        ...(p.coverPadding && { padding: p.coverPadding }),
-                        ...(p.coverBg && p.coverBg !== 'dark' && {
-                          background:
-                            p.coverBg === 'white' ? '#ffffff' : p.coverBg,
-                        }),
-                      }}
-                      loading="lazy"
-                      decoding="async"
-                    />
-                  ) : (
-                    <div className="project-card__plate" aria-hidden="true">
-                      <span className="project-card__plate-mark">{p.title.charAt(0)}</span>
-                    </div>
-                  )}
-                  <div className="project-card__hover" aria-hidden="true">
-                    <span>Voir le projet</span>
-                    <span className="project-card__hover-arrow">→</span>
-                  </div>
-                </div>
-
-                <div className="project-card__meta">
-                  <div className="project-card__title">
-                    <span>{p.title}</span>
-                    <span className="project-card__year">{p.year}</span>
-                  </div>
-                  <span className="project-card__category">{p.category}</span>
-                  <p className="project-card__excerpt">{p.excerpt}</p>
-                  <ul className="project-card__scope">
-                    {p.scope.map((s) => (
-                      <li key={s}>{s}</li>
-                    ))}
-                  </ul>
-                </div>
-              </a>
-            </li>
-          ))}
-        </ul>
-
-        <div className="projects__cta">
-          <Magnetic>
-            <Button as="a" href="#contact" variant="ghost">
-              Discuter d’un projet
-            </Button>
-          </Magnetic>
+          <p className="projects__intro">
+            De la chaîne Twitch au cabinet médical, du club sportif au projet
+            musical — chaque projet raconte la même obsession :{' '}
+            <em>la cohérence</em>.
+            <br />
+            <span className="projects__intro-hint">
+              Cliquez sur un projet pour voir le visuel et le détail.
+            </span>
+          </p>
         </div>
       </div>
+
+      <ul className="projects__list">
+        {projects.map((p, i) => (
+          <ProjectRow
+            key={p.id}
+            project={p}
+            index={i}
+            onSelect={() => setActiveId(p.id)}
+          />
+        ))}
+      </ul>
+
+      <AnimatePresence>
+        {active && (
+          <ProjectModal project={active} onClose={() => setActiveId(null)} />
+        )}
+      </AnimatePresence>
     </section>
+  )
+}
+
+type RowProps = {
+  project: (typeof projects)[number]
+  index: number
+  onSelect: () => void
+}
+
+function ProjectRow({ project, index, onSelect }: RowProps) {
+  const reduced = useReducedMotion()
+
+  return (
+    <motion.li
+      className="project-row-wrap"
+      initial={reduced ? { opacity: 1, y: 0 } : { opacity: 0, y: 32 }}
+      whileInView={{ opacity: 1, y: 0 }}
+      viewport={{ once: true, margin: '-15% 0px' }}
+      transition={{
+        duration: 0.85,
+        delay: (index % 4) * 0.05,
+        ease: [0.22, 1, 0.36, 1],
+      }}
+    >
+      <button
+        type="button"
+        className="project-row"
+        onClick={onSelect}
+        aria-label={`Ouvrir le projet ${project.title}`}
+      >
+        <span className="project-row__index">{project.index}</span>
+        <span className="project-row__title">{project.title}</span>
+        <span className="project-row__category">{project.category}</span>
+        <span className="project-row__year">{project.year}</span>
+        <span className="project-row__arrow" aria-hidden="true">
+          ↗
+        </span>
+      </button>
+    </motion.li>
   )
 }

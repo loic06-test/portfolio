@@ -1,0 +1,70 @@
+.big-arrow {
+  --bg: var(--paper);
+  --fg: var(--ink);
+  display: inline-flex;
+  align-items: center;
+  gap: 0.7em;
+  padding: 1em 1.3em 1em 1.5em;
+  font-family: var(--font-mono);
+  font-size: var(--fs-meta);
+  letter-spacing: 0.18em;
+  text-transform: uppercase;
+  font-weight: 500;
+  border-radius: 999px;
+  background: var(--bg);
+  color: var(--fg);
+  border: 1px solid transparent;
+  transition:
+    background 0.35s var(--ease-out),
+    color 0.35s var(--ease-out),
+    border-color 0.35s var(--ease-out);
+  white-space: nowrap;
+  position: relative;
+  overflow: hidden;
+}
+
+.big-arrow--inverse {
+  --bg: var(--ink);
+  --fg: var(--paper);
+  border-color: var(--line-strong);
+}
+
+.big-arrow--outline {
+  --bg: transparent;
+  --fg: var(--paper);
+  border-color: var(--line-strong);
+}
+
+.section--paper .big-arrow--outline {
+  --fg: var(--ink);
+  border-color: var(--paper-line-strong);
+}
+
+.big-arrow__label {
+  position: relative;
+  z-index: 1;
+}
+
+.big-arrow__arrow {
+  position: relative;
+  z-index: 1;
+  display: inline-block;
+  font-family: var(--font-display);
+  font-size: 1.25em;
+  line-height: 1;
+  transition: transform 0.45s var(--ease-expo);
+}
+
+.big-arrow:hover {
+  background: var(--accent);
+  color: var(--paper);
+  border-color: var(--accent);
+}
+
+.big-arrow:hover .big-arrow__arrow {
+  transform: translateX(6px);
+}
+
+.big-arrow:focus-visible {
+  outline-offset: 4px;
+}

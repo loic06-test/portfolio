@@ -1,0 +1,58 @@
+.section-marker {
+  display: flex;
+  align-items: center;
+  gap: 1.2em;
+  padding-bottom: var(--gap-4);
+  margin-bottom: var(--gap-6);
+  border-bottom: 1px solid var(--line);
+  font-family: var(--font-mono);
+  font-size: var(--fs-mono);
+  text-transform: uppercase;
+  letter-spacing: 0.18em;
+  color: var(--paper-dim);
+}
+
+.section--paper .section-marker {
+  border-bottom-color: var(--paper-line);
+  color: var(--mute);
+}
+
+.section-marker__index {
+  color: var(--accent);
+  font-weight: 600;
+}
+
+.section-marker__rule {
+  flex: 1 1 auto;
+  height: 1px;
+  background: var(--line-strong);
+}
+
+.section--paper .section-marker__rule {
+  background: var(--paper-line-strong);
+}
+
+.section-marker__rule--end {
+  flex: 0 1 80px;
+}
+
+.section-marker__label {
+  color: var(--paper);
+  font-weight: 500;
+}
+
+.section--paper .section-marker__label {
+  color: var(--ink);
+}
+
+.section-marker__meta {
+  color: var(--paper-dim);
+  flex-shrink: 0;
+}
+
+@media (max-width: 600px) {
+  .section-marker__rule--end,
+  .section-marker__meta {
+    display: none;
+  }
+}

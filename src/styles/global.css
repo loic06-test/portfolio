@@ -4,14 +4,15 @@
 html,
 body,
 #root {
-  background: var(--bg-0);
-  color: var(--text);
+  background: var(--ink);
+  color: var(--paper);
 }
 
 #root {
   position: relative;
   isolation: isolate;
   min-height: 100vh;
+  overflow: hidden;
 }
 
 main {
@@ -20,6 +21,8 @@ main {
   z-index: 1;
 }
 
+/* ============ Layout primitives ============ */
+
 .container {
   width: 100%;
   max-width: var(--container);
@@ -27,19 +30,46 @@ main {
   padding-inline: var(--gutter);
 }
 
-/* Display headings */
-.display {
-  font-family: var(--font-display);
-  font-weight: 500;
-  letter-spacing: -0.04em;
-  line-height: 0.94;
-  color: var(--text);
+.container--bleed {
+  width: 100%;
+  padding-inline: var(--gutter);
 }
 
-.display em {
+/* ============ Type primitives ============ */
+
+.display {
+  font-family: var(--font-display);
+  text-transform: uppercase;
+  letter-spacing: -0.005em;
+  line-height: 0.84;
+  font-weight: 400;
+  color: var(--paper);
+}
+
+.billboard {
+  font-family: var(--font-display);
+  font-size: var(--fs-billboard);
+  text-transform: uppercase;
+  line-height: 0.82;
+  letter-spacing: -0.012em;
+  font-weight: 400;
+  color: var(--paper);
+}
+
+.serif-italic {
+  font-family: var(--font-serif);
   font-style: italic;
-  color: var(--accent);
-  font-weight: 500;
+  font-weight: 400;
+  text-transform: none;
+  letter-spacing: -0.02em;
+}
+
+.mono {
+  font-family: var(--font-mono);
+  font-size: var(--fs-mono);
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  color: var(--paper-dim);
 }
 
 .eyebrow {
@@ -47,49 +77,78 @@ main {
   align-items: center;
   gap: 0.6em;
   font-family: var(--font-mono);
-  font-size: var(--fs-xs);
+  font-size: var(--fs-mono);
   letter-spacing: 0.18em;
   text-transform: uppercase;
-  color: var(--text-soft);
+  color: var(--paper-dim);
 }
 
 .eyebrow::before {
   content: '';
-  width: 28px;
+  width: 22px;
   height: 1px;
   background: var(--accent);
 }
 
-/* Reveal primitives, used by GSAP animations.
-   The line wrapper hides overflow; the inner span is translated. */
+/* ============ Section frame ============ */
+
+.section {
+  position: relative;
+  padding: var(--section-py) 0;
+  border-top: 1px solid var(--line);
+}
+
+.section--paper {
+  background: var(--paper);
+  color: var(--ink);
+}
+
+.section--paper .display,
+.section--paper .billboard {
+  color: var(--ink);
+}
+
+.section--paper .mono,
+.section--paper .eyebrow {
+  color: var(--mute);
+}
+
+/* ============ Reveal helpers (used by Framer Motion) ============ */
+
 .reveal-line {
   display: block;
-  overflow: hidden;
-}
-
-.reveal-line__inner {
-  display: block;
-  transform: translateY(110%);
-  will-change: transform;
-}
-
-.reveal-fade {
-  opacity: 0;
-  transform: translateY(28px);
   will-change: transform, opacity;
+  /* Tighter than 1 for the brutalist scale, but loose enough that descenders
+     never get clipped between lines. */
+  line-height: 0.94;
+  padding-bottom: 0.04em;
 }
 
-/* Dotted grid background utility */
-.dot-grid {
-  background-image: radial-gradient(
-    circle at 1px 1px,
-    rgba(255, 255, 255, 0.05) 1px,
-    transparent 0
-  );
-  background-size: 28px 28px;
+.reveal-line + .reveal-line {
+  margin-top: 0.02em;
 }
 
-/* Inert scrollbar */
+.reveal-line--italic {
+  font-family: var(--font-serif);
+  font-style: italic;
+  font-weight: 400;
+  text-transform: none;
+  font-size: 0.94em;
+  letter-spacing: -0.02em;
+  line-height: 1.02;
+  padding-bottom: 0.06em;
+}
+
+.reveal-line--accent {
+  color: var(--accent);
+}
+
+.section--paper .reveal-line--accent {
+  color: var(--accent);
+}
+
+/* ============ Scrollbar ============ */
+
 ::-webkit-scrollbar {
   width: 0;
   background: transparent;

@@ -7,23 +7,37 @@ export function Footer() {
 
   return (
     <footer className="footer">
-      <div className="container footer__inner">
+      <div className="footer__status">
+        <span className="footer__status-item">
+          <span className="footer__status-dot" aria-hidden="true" />
+          Disponible · Alternance 2026
+        </span>
+        <span className="footer__status-item">★ {personal.email}</span>
+        <span className="footer__status-item">★ {personal.location}</span>
+      </div>
+
+      <div className="footer__inner">
         <div className="footer__col">
-          <span className="eyebrow">Contact</span>
-          <a className="footer__line footer__link" href={`mailto:${personal.email}`}>
-            {personal.email}
-          </a>
-          <a className="footer__line footer__link" href={`tel:${personal.phone.replace(/\s/g, '')}`}>
-            {personal.phone}
-          </a>
-          <p className="footer__line footer__line--soft">
-            {personal.location} · {personal.origin}
-          </p>
+          <span className="mono">Index</span>
+          <div className="footer__index">{personal.initials}</div>
         </div>
 
         <div className="footer__col">
-          <span className="eyebrow">Réseaux</span>
-          <ul>
+          <span className="mono">Contact</span>
+          <a className="footer__link" href={`mailto:${personal.email}`}>
+            {personal.email}
+          </a>
+          <a
+            className="footer__link"
+            href={`tel:${personal.phone.replace(/\s/g, '')}`}
+          >
+            {personal.phone}
+          </a>
+        </div>
+
+        <div className="footer__col">
+          <span className="mono">Réseaux</span>
+          <ul className="footer__socials">
             {socialLinks.map((s) => (
               <li key={s.label}>
                 <a href={s.href} target="_blank" rel="noreferrer">
@@ -35,18 +49,17 @@ export function Footer() {
           </ul>
         </div>
 
-        <div className="footer__col footer__col--end">
-          <span className="eyebrow">Colophon</span>
-          <p className="footer__line">
-            Étudiant BUT GEA · option GEMA — IUT Nice Côte d’Azur. Disponible en
-            alternance dès la rentrée 2026.
-          </p>
+        <div className="footer__col">
+          <span className="mono">Localisation</span>
+          <p className="footer__line">{personal.location}</p>
+          <p className="footer__line footer__line--soft">{personal.origin}</p>
         </div>
       </div>
 
-      <div className="container footer__legal">
+      <div className="footer__legal">
         <span>© {year} {personal.name}</span>
-        <span>Tous droits réservés.</span>
+        <span>Brutalist Billboard / Edition 2026</span>
+        <span>Site conçu et codé sur-mesure.</span>
       </div>
     </footer>
   )

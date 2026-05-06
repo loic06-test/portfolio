@@ -41,7 +41,14 @@
       "Bash(curl -s -o /dev/null -w \"Asset JS:  %{http_code}\\\\n\" \"https://loic06-test.github.io/portfolio/assets/index-BvVRPH9Y.js\")",
       "Bash(curl -s -o /dev/null -w \"nojekyll:  %{http_code}\\\\n\" \"https://loic06-test.github.io/portfolio/.nojekyll\")",
       "Bash(curl -s \"https://api.github.com/repos/loic06-test/portfolio/deployments?environment=github-pages&per_page=5\")",
-      "Bash(curl -s \"https://api.github.com/repos/loic06-test/portfolio/deployments?environment=github-pages&per_page=1\")"
+      "Bash(curl -s \"https://api.github.com/repos/loic06-test/portfolio/deployments?environment=github-pages&per_page=1\")",
+      "Bash(npm uninstall *)",
+      "Bash(npm install *)",
+      "Bash(curl -s -o /dev/null -w \"%{http_code}\" http://127.0.0.1:4174/portfolio/)",
+      "Bash(curl -s \"http://127.0.0.1:4174/portfolio/\")",
+      "Bash(curl -s -o /dev/null -w \"JS:    %{http_code}\\\\n\" http://127.0.0.1:4174/portfolio/assets/index-DfnTlfjC.js)",
+      "Bash(curl -s -o /dev/null -w \"CSS:   %{http_code}\\\\n\" http://127.0.0.1:4174/portfolio/assets/index-cYJJduz2.css)",
+      "Bash(curl -s -o /dev/null -w \"MOTION:%{http_code}\\\\n\" http://127.0.0.1:4174/portfolio/assets/motion-BByJSESq.js)"
     ]
   }
 }

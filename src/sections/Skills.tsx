@@ -1,101 +1,89 @@
-import { useEffect, useRef } from 'react'
-import { gsap } from 'gsap'
-import { ScrollTrigger } from 'gsap/ScrollTrigger'
-import { SectionLabel } from '@/components/ui/SectionLabel'
-import { RevealLine } from '@/components/ui/RevealText'
-import { revealLines } from '@/animations/reveal'
+import { motion } from 'framer-motion'
+import { SectionMarker } from '@/components/ui/SectionMarker'
+import { RevealLine } from '@/components/ui/RevealLine'
+import { FadeIn } from '@/components/ui/FadeIn'
 import { skillGroups, tools } from '@/data/skills'
 import './Skills.css'
 
-gsap.registerPlugin(ScrollTrigger)
-
 export function Skills() {
-  const ref = useRef<HTMLElement>(null)
-
-  useEffect(() => {
-    const el = ref.current
-    if (!el) return
-    const tween = revealLines(el, { trigger: el, start: 'top 75%' })
-
-    const cols = gsap.utils.toArray<HTMLElement>('.skill-col', el)
-    const triggers = cols.map((c, i) =>
-      ScrollTrigger.create({
-        trigger: c,
-        start: 'top 86%',
-        once: true,
-        onEnter: () => {
-          gsap.fromTo(
-            c,
-            { opacity: 0, y: 50 },
-            { opacity: 1, y: 0, duration: 1.1, delay: i * 0.1, ease: 'expo.out' },
-          )
-        },
-      }),
-    )
-
-    const toolItems = gsap.utils.toArray<HTMLElement>('.tools__item', el)
-    const toolTrigger = ScrollTrigger.create({
-      trigger: el.querySelector('.tools'),
-      start: 'top 85%',
-      once: true,
-      onEnter: () => {
-        gsap.fromTo(
-          toolItems,
-          { opacity: 0, y: 18 },
-          { opacity: 1, y: 0, duration: 0.7, stagger: 0.025, ease: 'expo.out' },
-        )
-      },
-    })
-
-    return () => {
-      tween.kill()
-      triggers.forEach((t) => t.kill())
-      toolTrigger.kill()
-    }
-  }, [])
-
   return (
-    <section ref={ref} id="skills" className="skills">
+    <section id="expertises" className="section section--skills">
       <div className="container">
-        <header className="skills__head">
-          <div className="skills__head-top">
-            <SectionLabel index="03" label="Expertises" />
-            <span className="skills__head-meta">Stratégie · Création · Web</span>
-          </div>
-          <h2 className="display skills__title">
-            <RevealLine>Trois axes,</RevealLine>
-            <RevealLine>un même <em>fil rouge.</em></RevealLine>
+        <SectionMarker index="04" label="Expertises" meta="Stratégie · Création · Digital" />
+
+        <div className="skills__head">
+          <h2 className="skills__title display">
+            <RevealLine inView delay={0}>Trois axes,</RevealLine>
+            <RevealLine inView delay={0.08} italic accent>
+              un seul fil rouge —
+            </RevealLine>
+            <RevealLine inView delay={0.16}>la cohérence.</RevealLine>
           </h2>
-        </header>
+        </div>
 
         <div className="skills__grid">
           {skillGroups.map((g, i) => (
-            <article key={g.title} className="skill-col">
-              <div className="skill-col__num">0{i + 1}</div>
-              <h3 className="skill-col__title">{g.title}</h3>
-              <p className="skill-col__desc">{g.description}</p>
-              <ul className="skill-col__list">
-                {g.items.map((item) => (
-                  <li key={item}>
-                    <span className="skill-col__bullet" aria-hidden="true" />
-                    {item}
-                  </li>
-                ))}
-              </ul>
-            </article>
+            <FadeIn key={g.title} delay={i * 0.08}>
+              <article className="skill-col">
+                <div className="skill-col__head">
+                  <span className="skill-col__num">0{i + 1}</span>
+                  <h3 className="skill-col__title display">{g.title}</h3>
+                </div>
+                <p className="skill-col__desc">{g.description}</p>
+                <ul className="skill-col__list">
+                  {g.items.map((item, j) => (
+                    <motion.li
+                      key={item}
+                      initial={{ opacity: 0, x: -8 }}
+                      whileInView={{ opacity: 1, x: 0 }}
+                      viewport={{ once: true, margin: '-8% 0px' }}
+                      transition={{
+                        delay: i * 0.08 + j * 0.04,
+                        duration: 0.5,
+                        ease: [0.22, 1, 0.36, 1],
+                      }}
+                    >
+                      <span className="skill-col__bullet" aria-hidden="true">
+                        ✱
+                      </span>
+                      {item}
+                    </motion.li>
+                  ))}
+                </ul>
+              </article>
+            </FadeIn>
           ))}
         </div>
 
-        <div className="tools">
-          <span className="eyebrow">Outils</span>
-          <ul className="tools__list">
-            {tools.map((t) => (
-              <li key={t} className="tools__item">
-                {t}
-              </li>
-            ))}
-          </ul>
-        </div>
+        <FadeIn delay={0.2}>
+          <div className="skills__tools">
+            <div className="skills__tools-label">
+              <span className="mono">Outils maîtrisés</span>
+              <span className="skills__tools-rule" aria-hidden="true" />
+              <span className="mono">{tools.length} logiciels</span>
+            </div>
+            <ul className="skills__tools-grid">
+              {tools.map((t, i) => (
+                <motion.li
+                  key={t}
+                  initial={{ opacity: 0, y: 10 }}
+                  whileInView={{ opacity: 1, y: 0 }}
+                  viewport={{ once: true, margin: '-5% 0px' }}
+                  transition={{
+                    delay: i * 0.04,
+                    duration: 0.5,
+                    ease: [0.22, 1, 0.36, 1],
+                  }}
+                >
+                  <span className="skills__tools-num">
+                    {String(i + 1).padStart(2, '0')}
+                  </span>
+                  <span className="skills__tools-name">{t}</span>
+                </motion.li>
+              ))}
+            </ul>
+          </div>
+        </FadeIn>
       </div>
     </section>
   )

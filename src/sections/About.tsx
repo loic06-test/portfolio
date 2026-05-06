@@ -1,74 +1,127 @@
-import { useEffect, useRef } from 'react'
-import { gsap } from 'gsap'
-import { ScrollTrigger } from 'gsap/ScrollTrigger'
-import { SectionLabel } from '@/components/ui/SectionLabel'
-import { RevealLine } from '@/components/ui/RevealText'
-import { revealFade, revealLines } from '@/animations/reveal'
+import { motion } from 'framer-motion'
+import { SectionMarker } from '@/components/ui/SectionMarker'
+import { RevealLine } from '@/components/ui/RevealLine'
+import { FadeIn } from '@/components/ui/FadeIn'
 import { personal } from '@/data/personal'
 import './About.css'
 
-gsap.registerPlugin(ScrollTrigger)
-
 export function About() {
-  const ref = useRef<HTMLElement>(null)
-
-  useEffect(() => {
-    const el = ref.current
-    if (!el) return
-    const t1 = revealLines(el, { trigger: el, start: 'top 75%' })
-    const t2 = revealFade(el, { trigger: el, start: 'top 70%', delay: 0.25 })
-    return () => {
-      t1.kill()
-      t2.kill()
-    }
-  }, [])
-
   return (
-    <section ref={ref} id="about" className="about">
-      <div className="container about__inner">
-        <header className="about__head">
-          <SectionLabel index="01" label="À propos" />
-          <span className="about__head-meta">Approche & méthode</span>
-        </header>
+    <section id="about" className="section section--about">
+      <div className="container">
+        <SectionMarker index="02" label="À propos" meta="Manifeste / 2026" />
 
         <div className="about__grid">
-          <h2 className="display about__title">
-            <RevealLine>Autodidacte,</RevealLine>
-            <RevealLine>franco-américain,</RevealLine>
-            <RevealLine><em>23 ans.</em></RevealLine>
-          </h2>
+          <div className="about__title-col">
+            <h2 className="about__title display">
+              <RevealLine inView delay={0}>Autodidacte,</RevealLine>
+              <RevealLine inView delay={0.08} italic accent>
+                franco-américain,
+              </RevealLine>
+              <RevealLine inView delay={0.16}>23 ans —</RevealLine>
+              <RevealLine inView delay={0.24}>obsédé par les marques</RevealLine>
+              <RevealLine inView delay={0.32} accent>
+                qui se retiennent.
+              </RevealLine>
+            </h2>
+
+            {/*
+              ================================================================
+              PORTRAIT — emplacement réservé à ta photo
+              ================================================================
+              Pour brancher l'image : remplace le bloc <div class="about__portrait-placeholder">
+              par un <img>, par exemple :
+
+                <img
+                  src="/portfolio/portrait.jpg"   // ou l'URL distante
+                  alt={personal.name}
+                  className="about__portrait-img"
+                />
+
+              Ratio attendu : portrait 4 / 5 (le cadre s'y conforme).
+              ================================================================
+            */}
+            <FadeIn delay={0.2}>
+              <figure className="about__portrait">
+                <div className="about__portrait-frame">
+                  <div
+                    className="about__portrait-placeholder"
+                    aria-hidden="true"
+                  >
+                    <span className="about__portrait-mark">+</span>
+                    <span className="about__portrait-label mono">
+                      Insérer photo
+                    </span>
+                    <span className="about__portrait-spec mono">
+                      Portrait · 4 / 5
+                    </span>
+                  </div>
+                </div>
+                <figcaption className="about__portrait-caption">
+                  <span className="mono">— Loïc Karrer / Édition 2026</span>
+                  <span className="mono">Nice · FR</span>
+                </figcaption>
+              </figure>
+            </FadeIn>
+          </div>
 
           <div className="about__body">
-            {personal.long.map((p) => (
-              <p key={p} className="reveal-fade about__p">
-                {p}
-              </p>
+            {personal.long.map((p, i) => (
+              <FadeIn key={p} delay={i * 0.08}>
+                <p className="about__p">{p}</p>
+              </FadeIn>
             ))}
 
-            <ul className="about__stats">
-              <li className="reveal-fade">
-                <span className="about__stat-value">23</span>
-                <span className="about__stat-label">ans · BUT GEA · GEMA</span>
-              </li>
-              <li className="reveal-fade">
-                <span className="about__stat-value">06</span>
-                <span className="about__stat-label">univers couverts</span>
-              </li>
-              <li className="reveal-fade">
-                <span className="about__stat-value">100%</span>
-                <span className="about__stat-label">autodidacte</span>
-              </li>
-            </ul>
+            <FadeIn delay={0.2}>
+              <ul className="about__stats">
+                <li>
+                  <span className="about__stat-value">23</span>
+                  <span className="about__stat-label">
+                    Ans · BUT GEA<br />option GEMA
+                  </span>
+                </li>
+                <li>
+                  <span className="about__stat-value">06</span>
+                  <span className="about__stat-label">
+                    Univers couverts<br />Gaming → musique
+                  </span>
+                </li>
+                <li>
+                  <span className="about__stat-value">100%</span>
+                  <span className="about__stat-label">
+                    Autodidacte<br />Projet par projet
+                  </span>
+                </li>
+                <li>
+                  <span className="about__stat-value">2026</span>
+                  <span className="about__stat-label">
+                    Alternance<br />En recherche active
+                  </span>
+                </li>
+              </ul>
+            </FadeIn>
 
-            <div className="about__personal reveal-fade">
-              <span className="about__personal-label">Hors écran</span>
-              <p className="about__personal-text">
-                {personal.interests.join(' · ')}.
-              </p>
-            </div>
+            <FadeIn delay={0.3}>
+              <div className="about__personal">
+                <span className="mono">Hors écran</span>
+                <p>{personal.interests.join(' · ')}.</p>
+              </div>
+            </FadeIn>
           </div>
         </div>
       </div>
+
+      <motion.div
+        className="about__big-quote"
+        initial={{ opacity: 0 }}
+        whileInView={{ opacity: 1 }}
+        viewport={{ once: true, margin: '-15% 0px' }}
+        transition={{ duration: 1.2 }}
+      >
+        <p className="serif-italic">
+          “Chaque univers a ses codes — j’aime les apprendre.”
+        </p>
+      </motion.div>
     </section>
   )
 }
