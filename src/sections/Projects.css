@@ -33,6 +33,16 @@
   }
 }
 
+@media (max-width: 768px) {
+  .projects__head {
+    gap: var(--space-3);
+    margin-bottom: var(--space-3);
+  }
+  .projects__head-top {
+    padding-bottom: var(--space-3);
+  }
+}
+
 .projects__title {
   font-size: var(--fs-display);
   margin: 0;

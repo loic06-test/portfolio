@@ -118,6 +118,18 @@
   }
 }
 
+@media (max-width: 768px) {
+  .about__inner {
+    gap: var(--space-3);
+  }
+  .about__head {
+    padding-bottom: var(--space-3);
+  }
+  .about__grid {
+    gap: var(--space-4);
+  }
+}
+
 @media (max-width: 600px) {
   .about__stats {
     grid-template-columns: 1fr;

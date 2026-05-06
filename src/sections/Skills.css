@@ -34,6 +34,16 @@
   }
 }
 
+@media (max-width: 768px) {
+  .skills__head {
+    gap: var(--space-3);
+    margin-bottom: var(--space-3);
+  }
+  .skills__head-top {
+    padding-bottom: var(--space-3);
+  }
+}
+
 .skills__title {
   font-size: var(--fs-display);
   margin: 0;

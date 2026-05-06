@@ -29,6 +29,13 @@
   }
 }
 
+@media (max-width: 768px) {
+  .contact__head {
+    padding-bottom: var(--space-3);
+    margin-bottom: var(--space-3);
+  }
+}
+
 .contact__title {
   font-size: var(--fs-display-xl);
   margin: 0;
