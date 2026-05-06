@@ -17,7 +17,14 @@
       "Bash(curl -s https://api.github.com/repos/loic06-test/portfolio/actions/runs?per_page=5)",
       "Bash(curl -s \"https://loic06-test.github.io/portfolio/?v=$\\(date +%s\\)\")",
       "Bash(curl -s -o /dev/null -w \"%{http_code}\\\\n\" \"https://loic06-test.github.io/portfolio/assets/index-BvVRPH9Y.js\")",
-      "Bash(curl -s \"https://api.github.com/repos/loic06-test/portfolio/deployments?per_page=3\")"
+      "Bash(curl -s \"https://api.github.com/repos/loic06-test/portfolio/deployments?per_page=3\")",
+      "Bash(curl -s \"https://api.github.com/repos/loic06-test/portfolio/actions/runs?per_page=3\")",
+      "Bash(curl -s \"https://api.github.com/repos/loic06-test/portfolio/branches/gh-pages\")",
+      "Bash(curl -s -o /dev/null -w \"Live page status: %{http_code}\\\\n\" \"https://loic06-test.github.io/portfolio/?cb=$\\(date +%s\\)\")",
+      "Bash(curl -s \"https://loic06-test.github.io/portfolio/?cb=$\\(date +%s\\)\")",
+      "Bash(curl -s \"https://api.github.com/repos/loic06-test/portfolio/contents?ref=gh-pages\")",
+      "Bash(curl -s \"https://raw.githubusercontent.com/loic06-test/portfolio/gh-pages/index.html\")",
+      "Bash(curl -s \"https://api.github.com/repos/loic06-test/portfolio/pages\")"
     ]
   }
 }
