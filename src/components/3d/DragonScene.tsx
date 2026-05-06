@@ -84,9 +84,10 @@ export function DragonScene({ className }: Props) {
   const reduced = useReducedMotion()
   // Sketchfab's WebGL embed crashes mobile browsers ("Impossible d'ouvrir cette
   // page" on iOS, OOM kills on Android Chrome) once you stack it on top of GSAP
-  // + Lenis + smooth scroll. We swap it for a static premium backdrop below
-  // this width — the layout & copy stay identical.
-  const isMobile = useMediaQuery('(max-width: 768px)')
+  // + Lenis + smooth scroll. We swap it for a static premium backdrop on every
+  // touch device — pointer:coarse covers phones (any orientation) and tablets,
+  // unlike a width-based query which misses landscape phones and iPads.
+  const isMobile = useMediaQuery('(pointer: coarse)')
   const wrapRef = useRef<HTMLDivElement>(null)
   const iframeRef = useRef<HTMLIFrameElement>(null)
   const apiRef = useRef<SketchfabApi | null>(null)
