@@ -1,0 +1,96 @@
+@import './tokens.css';
+@import './reset.css';
+
+html,
+body,
+#root {
+  background: var(--bg-0);
+  color: var(--text);
+}
+
+#root {
+  position: relative;
+  isolation: isolate;
+  min-height: 100vh;
+}
+
+main {
+  display: block;
+  position: relative;
+  z-index: 1;
+}
+
+.container {
+  width: 100%;
+  max-width: var(--container);
+  margin-inline: auto;
+  padding-inline: var(--gutter);
+}
+
+/* Display headings */
+.display {
+  font-family: var(--font-display);
+  font-weight: 500;
+  letter-spacing: -0.04em;
+  line-height: 0.94;
+  color: var(--text);
+}
+
+.display em {
+  font-style: italic;
+  color: var(--accent);
+  font-weight: 500;
+}
+
+.eyebrow {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.6em;
+  font-family: var(--font-mono);
+  font-size: var(--fs-xs);
+  letter-spacing: 0.18em;
+  text-transform: uppercase;
+  color: var(--text-soft);
+}
+
+.eyebrow::before {
+  content: '';
+  width: 28px;
+  height: 1px;
+  background: var(--accent);
+}
+
+/* Reveal primitives, used by GSAP animations.
+   The line wrapper hides overflow; the inner span is translated. */
+.reveal-line {
+  display: block;
+  overflow: hidden;
+}
+
+.reveal-line__inner {
+  display: block;
+  transform: translateY(110%);
+  will-change: transform;
+}
+
+.reveal-fade {
+  opacity: 0;
+  transform: translateY(28px);
+  will-change: transform, opacity;
+}
+
+/* Dotted grid background utility */
+.dot-grid {
+  background-image: radial-gradient(
+    circle at 1px 1px,
+    rgba(255, 255, 255, 0.05) 1px,
+    transparent 0
+  );
+  background-size: 28px 28px;
+}
+
+/* Inert scrollbar */
+::-webkit-scrollbar {
+  width: 0;
+  background: transparent;
+}

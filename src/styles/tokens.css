@@ -1,0 +1,86 @@
+/* ==========================================================================
+   Design tokens — palette anthracite premium + accent rouge
+   ========================================================================== */
+
+:root {
+  /* Surfaces neutres profondes */
+  --bg-0: #08090b;
+  --bg-1: #0d0e11;
+  --bg-2: #121317;
+  --bg-3: #181a1f;
+  --surface: #1c1e24;
+  --surface-hi: #23262d;
+
+  /* Lignes & séparateurs */
+  --line: rgba(255, 255, 255, 0.07);
+  --line-strong: rgba(255, 255, 255, 0.14);
+
+  /* Texte */
+  --text: #e9e8e6;
+  --text-soft: #a8a6a3;
+  --text-muted: #6a6864;
+  --text-faint: #46443f;
+
+  /* Accent rouge — sobre, profond, jamais criard */
+  --accent: #d83a2c;
+  --accent-hi: #e85547;
+  --accent-deep: #8a1a12;
+  --accent-glow: rgba(216, 58, 44, 0.18);
+  --accent-line: rgba(216, 58, 44, 0.42);
+
+  /* Bois / chair (utilisé subtilement par la 3D) */
+  --skin-warm: #c69a82;
+  --skin-cool: #8a6a58;
+
+  /* Typographie */
+  --font-sans: 'Inter', system-ui, -apple-system, 'Segoe UI', sans-serif;
+  --font-display: 'Fraunces', 'Times New Roman', serif;
+  --font-mono: ui-monospace, 'JetBrains Mono', Consolas, monospace;
+
+  /* Échelles fluides */
+  --fs-xs: clamp(0.72rem, 0.7rem + 0.1vw, 0.78rem);
+  --fs-sm: clamp(0.84rem, 0.8rem + 0.15vw, 0.92rem);
+  --fs-base: clamp(0.95rem, 0.9rem + 0.2vw, 1.05rem);
+  --fs-md: clamp(1.05rem, 1rem + 0.3vw, 1.2rem);
+  --fs-lg: clamp(1.4rem, 1.25rem + 0.6vw, 1.85rem);
+  --fs-xl: clamp(2rem, 1.6rem + 1.5vw, 3rem);
+  --fs-display: clamp(2.6rem, 1.8rem + 4vw, 6rem);
+  --fs-display-xl: clamp(3.2rem, 2rem + 7vw, 9.5rem);
+
+  /* Espacements / rythme */
+  --space-1: 0.25rem;
+  --space-2: 0.5rem;
+  --space-3: 0.75rem;
+  --space-4: 1rem;
+  --space-5: 1.5rem;
+  --space-6: 2rem;
+  --space-7: 3rem;
+  --space-8: 5rem;
+  --space-9: 8rem;
+  --space-10: 12rem;
+
+  /* Conteneur */
+  --container: 1320px;
+  --gutter: clamp(1.25rem, 4vw, 2.5rem);
+
+  /* Rythme vertical des sections — gardé volontairement contenu */
+  --section-py: clamp(2.75rem, 4vw + 1rem, 4.5rem);
+
+  /* Rayon */
+  --radius-sm: 4px;
+  --radius-md: 10px;
+  --radius-lg: 18px;
+  --radius-xl: 28px;
+  --radius-pill: 999px;
+
+  /* Easing */
+  --ease-out: cubic-bezier(0.22, 0.61, 0.36, 1);
+  --ease-in-out: cubic-bezier(0.65, 0, 0.35, 1);
+  --ease-expo: cubic-bezier(0.16, 1, 0.3, 1);
+
+  /* Durations */
+  --d-1: 180ms;
+  --d-2: 320ms;
+  --d-3: 600ms;
+  --d-4: 900ms;
+}

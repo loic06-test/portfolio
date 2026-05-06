@@ -1,0 +1,28 @@
+.section-label {
+  display: inline-flex;
+  align-items: baseline;
+  gap: 1em;
+}
+
+.section-label__index {
+  font-family: var(--font-display);
+  font-style: italic;
+  font-weight: 500;
+  font-size: clamp(1.7rem, 1.3rem + 0.6vw, 2.2rem);
+  line-height: 0.9;
+  letter-spacing: -0.04em;
+  color: var(--accent);
+  font-variant-numeric: tabular-nums;
+}
+
+.section-label__text {
+  font-family: var(--font-mono);
+  font-size: var(--fs-xs);
+  letter-spacing: 0.22em;
+  text-transform: uppercase;
+  color: var(--text);
+  font-weight: 500;
+  /* Optical alignment with the italic display number */
+  position: relative;
+  top: -0.15em;
+}
