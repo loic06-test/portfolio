@@ -31,8 +31,11 @@
 
 @media (max-width: 768px) {
   .contact__head {
-    padding-bottom: var(--space-3);
-    margin-bottom: var(--space-3);
+    padding-bottom: var(--space-2);
+    margin-bottom: var(--space-2);
+  }
+  .contact__lead {
+    margin-top: var(--space-3);
   }
 }
 
