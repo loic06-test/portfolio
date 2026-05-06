@@ -6,7 +6,13 @@
       "Bash(npm run *)",
       "Bash(git add *)",
       "Bash(git commit *)",
-      "Bash(git push *)"
+      "Bash(git push *)",
+      "WebFetch(domain:loic06-test.github.io)",
+      "Bash(gh repo *)",
+      "Bash(gh api *)",
+      "Bash(curl -s https://loic06-test.github.io/portfolio/)",
+      "Bash(curl -s -o /dev/null -w \"HTML: %{http_code}\\\\nFinal URL: %{url_effective}\\\\n\" https://loic06-test.github.io/portfolio/)",
+      "Bash(curl -s -o /dev/null -w \"JS:   %{http_code}\\\\n\" https://loic06-test.github.io/portfolio/assets/index-q1LgqGtz.js)"
     ]
   }
 }
